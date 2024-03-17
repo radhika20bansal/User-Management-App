@@ -3,18 +3,19 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, Navigate } from "react-router-dom";
 import { logoutUser } from "../slices/UserSlice";
-import { AppDispatch } from "../slices/store";
+import { AppDispatch, RootState } from "../slices/store";
+import { UserModel } from "../models/userModel";
 
 const Dashboard = () => {
-  const { user } = useSelector((state: any) => state.user);
-  const [currentUser, setCurrentUser] = useState<any>(null);
-  const [error, setError] = useState<any>(null);
+  const { user } = useSelector((state: RootState) => state.user);
+  const [currentUser, setCurrentUser] = useState<UserModel | null>(null);
+  const [error, setError] = useState<String | null>(null);
   const dispatch = useDispatch<AppDispatch>();
 
   const fetchUser = async () => {
     try {
       const response = await axios.get(
-        `https://reqres.in/api/users/${user.id}`
+        `https://reqres.in/api/users/${user?.id}`
       );
       const data = response.data.data;
       if (data) {

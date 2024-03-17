@@ -1,7 +1,9 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { setMessage } from "./messageSlice";
-const user: any = JSON.parse(localStorage.getItem("user") as string);
+import { RegisterloginModel } from "../models/userModel";
+
+const user: RegisterloginModel = JSON.parse(localStorage.getItem("user") as string);
 
 const initialState = user
   ? { isLoggedIn: true, user }
@@ -9,7 +11,7 @@ const initialState = user
 
 export const registerUser = createAsyncThunk(
   "user/registerUser",
-  async (userCredentials: any, thunkAPI) => {
+  async (userCredentials: RegisterloginModel, thunkAPI) => {
     try {
       const reqresResponse = await axios.post(
         "https://reqres.in/api/register",
@@ -25,7 +27,6 @@ export const registerUser = createAsyncThunk(
           error.response.data.message) ||
         `${error.message} ${error.response.data.error}` ||
         error.toString();
-      console.log("message", message);
       thunkAPI.dispatch(setMessage(message));
       return thunkAPI.rejectWithValue(error.response);
     }
@@ -34,7 +35,7 @@ export const registerUser = createAsyncThunk(
 
 export const loginUser = createAsyncThunk(
   "user/loginUser",
-  async (userCredentials: any, thunkAPI) => {
+  async (userCredentials: RegisterloginModel, thunkAPI) => {
     try {
       const reqresResponse = await axios.post(
         "https://reqres.in/api/login",
@@ -55,7 +56,6 @@ export const loginUser = createAsyncThunk(
           error.response.data.message) ||
         `${error.message} ${error.response.data.error}` ||
         error.toString();
-      console.log("message", message, error);
       thunkAPI.dispatch(setMessage(message));
       return thunkAPI.rejectWithValue(error.response);
     }

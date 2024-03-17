@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import FormComponent from "./FormComponent";
 import { useNavigate, Navigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch } from "../slices/store";
+import { AppDispatch, RootState } from "../slices/store";
 import { loginUser } from "../slices/UserSlice";
 import { Circles } from "react-loader-spinner";
 
@@ -14,8 +14,8 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
 
   const dispatch = useDispatch<AppDispatch>();
-  const { isLoggedIn } = useSelector((state: any) => state.user);
-  const { message } = useSelector((state: any) => state.message);
+  const { isLoggedIn } = useSelector((state: RootState) => state.user);
+  const {message}  = useSelector((state: RootState) => state.message);
   const navigate = useNavigate();
   const isDisabled = passwordError !== "" || emailError !== "";
 

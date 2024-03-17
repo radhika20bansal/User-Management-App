@@ -3,7 +3,7 @@ import FormComponent from "./FormComponent";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import { registerUser } from "../slices/UserSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch } from "../slices/store";
+import { AppDispatch, RootState } from "../slices/store";
 import { clearMessage } from "../slices/messageSlice";
 
 const Register = () => {
@@ -13,8 +13,8 @@ const Register = () => {
   const [emailError, setEmailError] = useState("Email is required");
   const [isSuccessful, setIsSuccessful] = useState(false);
   const dispatch = useDispatch<AppDispatch>();
-  const { isLoggedIn } = useSelector((state: any) => state.user);
-  const { message } = useSelector((state: any) => state.message);
+  const { isLoggedIn } = useSelector((state: RootState) => state.user);
+  const { message } = useSelector((state: RootState) => state.message);
   const navigate = useNavigate();
   const isDisabled = passwordError !== "" || emailError !== "";
 
@@ -56,7 +56,6 @@ const Register = () => {
     }
     dispatch(registerUser(userCredentials))
       .then((data: any) => {
-        console.log("register data", data);
         if (
           data.error.message === "Rejected" ||
           data.type === "user/registerUser/rejected"

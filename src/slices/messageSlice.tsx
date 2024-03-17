@@ -1,6 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
-const initialState = {};
 
+export interface State {
+  message: String
+}
+const initialState: State = {
+  message: ''
+};
 
 const messageSlice = createSlice({
   name: "message",
